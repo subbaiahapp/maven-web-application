@@ -12,7 +12,7 @@ git branch: 'development', url: 'https://github.com/subbaiahapp/maven-web-applic
 stage('build'){
 sh "${mavenHome}/bin/mvn clean package"
 }
-
+/*
 //Execute sonarQube server
 stage('ExecuteSonarQubeServer'){
 sh "${mavenHome}/bin/mvn sonar:sonar"
@@ -30,7 +30,7 @@ sshagent(['a21cb3de-2285-4358-a13d-4352261a2c2b']) {
 sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@172.31.5.92:/opt/apache-tomcat-9.0.68/webapps/"
 }
 }
-
+*/
     
 
 }//node closing

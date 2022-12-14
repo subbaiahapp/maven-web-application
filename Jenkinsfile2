@@ -1,0 +1,29 @@
+node {
+def mavenHome = tool name: 'maven3.8.6'
+echo "Jon name is: ${env.JON_NMAE}"
+echo "Build number is: ${env.BUILD_NUMBER}"
+
+
+
+stage('checking code'){
+git branch: 'development', url: 'https://github.com/subbaiahapp/maven-web-application.git'
+}
+stage('build'){
+sh "${mavenHome}/bin/mvn clean package"
+}
+stage('sonarqube'){
+sh "${mavenHome}/bin/mvn sonar:sonar"
+}
+stage('nexus'){
+sh "${mavenHome}/bin/mvn deploy"
+}
+stage('tomact'){
+sshagent(['8b47d5a0-b5e1-4715-a0f1-d5be1ab8287e']) {
+ sh "scp -o StrictHostKeyChecking=no target/maven-web-application.war ec2-user@65.0.204.181:/opt/apache-tomcat-9.0.70/webapps/"
+}
+}   
+
+
+
+
+}//node closing
